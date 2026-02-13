@@ -3,21 +3,33 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import SpinWheel from './components/SpinWheel';
 import DataModal from './components/DataModal';
 import { GameState, Prize, UserPreference } from './types';
+import { PRIZES, SIZES, STYLES } from './constants';
 
 const App: React.FC = () => {
-  const [config, setConfig] = useState<any>(null);
+  // กำหนดค่าเริ่มต้นทันที เพื่อไม่ให้ติดหน้า Loading_Labs
+  const [config, setConfig] = useState<any>({
+    prizes: PRIZES,
+    sizes: SIZES,
+    styles: STYLES,
+    rewardCode: "ULTRA2026",
+    brandName: "YUEDPAO"
+  });
+  
   const [gameState, setGameState] = useState<GameState>(GameState.IDLE);
   const [winningPrize, setWinningPrize] = useState<Prize | null>(null);
   const [rotation, setRotation] = useState(0);
   const [showCookieConsent, setShowCookieConsent] = useState(false);
   const [showFullPrivacy, setShowFullPrivacy] = useState(false);
 
-  // Fetch configuration from JSON
+  // Fetch เพื่ออัปเดตค่า (ถ้ามีไฟล์ JSON บน Server)
   useEffect(() => {
     fetch('./data.json')
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) throw new Error("JSON not found");
+        return res.json();
+      })
       .then(data => setConfig(data))
-      .catch(err => console.error("Error loading config:", err));
+      .catch(err => console.warn("Using default local config as data.json was not accessible:", err));
 
     const consent = localStorage.getItem('yuedpao-cookie-consent');
     if (!consent) {
@@ -63,8 +75,6 @@ const App: React.FC = () => {
     localStorage.setItem('yuedpao-cookie-consent', 'true');
     setShowCookieConsent(false);
   };
-
-  if (!config) return <div className="min-h-screen bg-white flex items-center justify-center font-syncopate text-xs tracking-widest animate-pulse">LOADING_LABS...</div>;
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 selection:bg-[#00f3ff] selection:text-white overflow-x-hidden scroll-smooth">
@@ -139,7 +149,7 @@ const App: React.FC = () => {
             </div>
         </section>
 
-        {/* Spin Wheel Section - Simplified & Professional */}
+        {/* Spin Wheel Section */}
         <section id="game" className="w-full flex flex-col items-center py-24 md:py-40 mb-32 relative bg-white rounded-[4rem] md:rounded-[8rem] border border-zinc-100 shadow-[0_40px_120px_rgba(0,0,0,0.03)] overflow-hidden">
           
           <div className="mb-16 md:mb-24 text-center max-w-2xl px-6">
@@ -165,7 +175,7 @@ const App: React.FC = () => {
 
       </main>
 
-      {/* Cookie / PDPA Consent Banner */}
+      {/* Cookie Banner */}
       {showCookieConsent && (
         <div className="fixed inset-x-0 bottom-0 z-[100] p-4 md:p-8 animate-in fade-in slide-in-from-bottom-full duration-700">
           <div className="max-w-6xl mx-auto bg-white/90 backdrop-blur-2xl border border-zinc-200 shadow-[0_-20px_60px_rgba(0,0,0,0.1)] rounded-[2.5rem] md:rounded-[4rem] p-8 md:p-14 flex flex-col lg:flex-row items-center gap-10">
@@ -178,11 +188,6 @@ const App: React.FC = () => {
               <button onClick={() => setShowFullPrivacy(!showFullPrivacy)} className="text-[10px] font-bold text-[#0088cc] hover:underline uppercase tracking-widest">
                 ดูรายละเอียดนโยบาย
               </button>
-              {showFullPrivacy && (
-                <div className="mt-4 p-4 bg-zinc-50 rounded-2xl text-[10px] text-zinc-400 leading-relaxed max-h-32 overflow-y-auto custom-scrollbar">
-                  ข้อมูลที่จัดเก็บ: ชื่อ-นามสกุล, ข้อมูลติดต่อ, สัดส่วนร่างกาย และความชอบส่วนบุคคล เพื่อวัตถุประสงค์ในการวิจัยและส่งมอบของรางวัลเท่านั้น เราจะไม่เปิดเผยข้อมูลให้บุคคลที่สามโดยไม่ได้รับอนุญาต
-                </div>
-              )}
             </div>
             <div className="flex flex-col gap-3 w-full lg:w-[320px]">
               <button onClick={acceptCookies} className="w-full bg-zinc-900 text-white font-syncopate font-bold py-6 rounded-2xl hover:bg-black transition-all shadow-xl text-xs tracking-[0.2em] uppercase">
@@ -196,12 +201,11 @@ const App: React.FC = () => {
         </div>
       )}
 
-      {/* Form Modal */}
+      {/* Modal & Success logic stays the same but safer */}
       {gameState === GameState.COLLECTING_DATA && winningPrize && (
         <DataModal prize={winningPrize} onSubmit={handleFormSubmit} />
       )}
 
-      {/* Success View */}
       {gameState === GameState.SUCCESS && winningPrize && (
         <div className="fixed inset-0 z-[120] flex items-center justify-center p-4 bg-white/95 backdrop-blur-3xl animate-in fade-in zoom-in duration-500">
           <div className="w-full max-w-2xl text-center bg-white p-10 md:p-24 rounded-[4rem] md:rounded-[6rem] shadow-[0_60px_150px_rgba(0,0,0,0.1)] border border-zinc-100 relative overflow-hidden group">
@@ -223,7 +227,6 @@ const App: React.FC = () => {
                   ขอบคุณที่ร่วมเป็นส่วนหนึ่งของการวิจัยสรีระกับเรา
               </p>
               
-              {/* Reward Code - Optimized size according to user request */}
               <div 
                   onClick={copyToClipboard}
                   className="bg-slate-50 border-2 border-dashed border-zinc-200 p-8 md:p-12 rounded-[2.5rem] md:rounded-[4rem] mb-12 relative cursor-pointer hover:border-[#0088cc] transition-all group/code"
@@ -250,17 +253,11 @@ const App: React.FC = () => {
         </div>
       )}
 
-      {/* Footer */}
       <footer className="relative border-t border-zinc-100 py-32 md:py-52 px-6 bg-white text-center">
           <h4 className="font-syncopate text-3xl md:text-7xl font-bold mb-6 tracking-[0.5em] text-zinc-900">YU<span className="text-[#0088cc]">ED</span>PAO</h4>
           <p className="text-zinc-400 text-xs md:text-xl max-w-xl mx-auto font-medium mb-20 leading-relaxed uppercase tracking-[0.2em]">
             นวัตกรรมเสื้อยืดไทยที่ออกแบบมาเพื่อคุณโดยเฉพาะ <br/> ขับเคลื่อนด้วยข้อมูลจาก Yuedpao Labs
           </p>
-          <div className="flex justify-center gap-10 mb-20 text-[10px] font-syncopate font-bold tracking-widest text-zinc-400 uppercase">
-             <a href="#" className="hover:text-black transition-colors">Instagram</a>
-             <a href="#" className="hover:text-black transition-colors">TikTok</a>
-             <a href="#" className="hover:text-black transition-colors">Facebook</a>
-          </div>
           <div className="pt-10 border-t border-zinc-50">
               <p className="text-[8px] md:text-[10px] text-zinc-300 font-syncopate uppercase tracking-[0.6em]">© 2026 YUEDPAO STREETWEAR LABS | ALL RIGHTS RESERVED</p>
           </div>
