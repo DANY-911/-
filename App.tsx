@@ -29,7 +29,6 @@ const CookieConsent: React.FC = () => {
         <div className="p-6 md:p-12">
           <div className="flex flex-col lg:flex-row gap-8 lg:gap-14 items-start">
             
-            {/* Sincerity Icon & Title */}
             <div className="flex-shrink-0 flex flex-col items-center lg:items-start text-center lg:text-left">
               <div className="w-16 h-16 md:w-20 md:h-20 bg-blue-50 rounded-[2rem] flex items-center justify-center mb-4">
                 <svg className="w-8 h-8 md:w-10 md:h-10 text-[#0088cc]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -42,10 +41,9 @@ const CookieConsent: React.FC = () => {
             
             <div className="flex-grow space-y-5">
               <p className="text-zinc-600 text-sm md:text-lg leading-relaxed">
-                Yuedpao Labs ให้ความสำคัญกับข้อมูลของคุณ เราจัดเก็บข้อมูลเพื่อใช้ใน <span className="font-bold text-zinc-900">การวิจัยสรีระ (Sizing Research)</span> สำหรับคอลเลกชันปี 2026 โดยเฉพาะ ข้อมูลของคุณจะไม่ถูกนำไปจำหน่ายต่อให้บุคคลภายนอกอย่างเด็ดขาด
+                Yuedpao Labs ให้ความสำคัญกับข้อมูลของคุณ เราจัดเก็บข้อมูลเพื่อใช้ใน <span className="font-bold text-zinc-900">การวิจัยสรีระ (Sizing Research)</span> สำหรับคอลเลกชันปี 2026 ข้อมูลของคุณจะไม่ถูกจำหน่ายต่อให้บุคคลภายนอกอย่างเด็ดขาด
               </p>
 
-              {/* PDPA Quick Points - High Readability */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="flex items-start gap-3 p-4 bg-zinc-50 rounded-2xl">
                   <div className="w-5 h-5 bg-[#0088cc]/10 text-[#0088cc] rounded-full flex-shrink-0 flex items-center justify-center mt-0.5">
@@ -174,7 +172,6 @@ const App: React.FC = () => {
           ร่วมทำแบบสำรวจเพื่อพัฒนาเสื้อผ้าที่ <span className="text-zinc-900 font-bold">"พอดีที่สุด"</span> สำหรับคุณ พร้อมลุ้นรับรางวัลพิเศษทันที
         </p>
 
-        {/* Spin Wheel Section */}
         <section id="game" className="w-full flex flex-col items-center py-12 md:py-28 mb-12 md:mb-44 relative bg-white rounded-[3rem] md:rounded-[6rem] border border-zinc-200 shadow-[0_30px_100px_rgba(0,0,0,0.05)] overflow-hidden">
           <div className="scale-75 sm:scale-90 md:scale-100">
             <SpinWheel rotation={rotation} />
@@ -191,7 +188,6 @@ const App: React.FC = () => {
           </div>
         </section>
 
-        {/* Brand Mission Section */}
         <section className="w-full py-12 md:py-32 text-left grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-24 items-center border-t border-zinc-100">
             <div className="space-y-6 md:space-y-12">
               <div>
@@ -218,12 +214,10 @@ const App: React.FC = () => {
         <DataModal prize={winningPrize} onSubmit={handleFormSubmit} />
       )}
 
-      {/* SUCCESS SCREEN - BEAUTIFIED & CELEBRATORY */}
       {gameState === GameState.SUCCESS && winningPrize && (
         <div className="fixed inset-0 z-[120] flex items-center justify-center p-4 bg-white/95 backdrop-blur-3xl animate-in fade-in zoom-in duration-700">
           <div className="w-full max-w-2xl text-center bg-white p-8 md:p-20 rounded-[3.5rem] md:rounded-[5rem] shadow-[0_60px_160px_rgba(0,0,0,0.12)] border border-zinc-100 relative overflow-hidden group">
             
-            {/* Animated Celebration Background Elements */}
             <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-[#00f3ff] via-[#0088cc] to-[#00f3ff] animate-scanline-fast"></div>
 
             <div className="relative z-10">
