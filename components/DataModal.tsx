@@ -37,6 +37,14 @@ const DataModal: React.FC<DataModalProps> = ({ prize, onSubmit }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!fullName || !email || !phone) {
+      alert("กรุณากรอกข้อมูลที่จำเป็นให้ครบถ้วน");
+      return;
+    }
+    if (!consentTerms) {
+      alert("กรุณายินยอมเงื่อนไขเพื่อดำเนินการต่อ");
+      return;
+    }
     onSubmit({ 
       fullName, 
       email,
@@ -53,74 +61,74 @@ const DataModal: React.FC<DataModalProps> = ({ prize, onSubmit }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end md:items-center justify-center bg-zinc-900/60 backdrop-blur-md animate-in fade-in duration-300">
-      <div className="w-full max-w-3xl bg-white rounded-t-[2.5rem] md:rounded-[2.5rem] shadow-2xl flex flex-col max-h-[95vh] overflow-hidden border-t md:border border-zinc-100">
+    <div className="fixed inset-0 z-[110] flex items-end md:items-center justify-center bg-zinc-900/60 backdrop-blur-md animate-in fade-in duration-300">
+      <div className="w-full max-w-4xl bg-white rounded-t-[3rem] md:rounded-[4rem] shadow-2xl flex flex-col max-h-[95vh] overflow-hidden border-t md:border border-zinc-100">
         
-        {/* Header - Fixed on top of modal */}
-        <div className="p-6 md:p-10 text-center bg-white border-b border-zinc-50 flex-shrink-0">
-          <div className="w-12 h-1 bg-zinc-200 rounded-full mx-auto mb-6 md:hidden"></div>
-          <div className="inline-block bg-blue-50 text-[#0088cc] px-4 py-1 rounded-full text-[9px] font-syncopate font-bold tracking-widest mb-3 uppercase">Registration</div>
-          <h2 className="text-xl md:text-3xl font-syncopate font-bold text-zinc-900 tracking-tighter mb-1">กรอกข้อมูลรับรางวัล</h2>
-          <p className="text-[#0088cc] text-sm md:text-lg font-black italic">คุณได้รับ: {prize.label}</p>
+        {/* Header */}
+        <div className="p-8 md:p-14 text-center bg-white border-b border-zinc-50 flex-shrink-0">
+          <div className="w-12 h-1 bg-zinc-200 rounded-full mx-auto mb-8 md:hidden"></div>
+          <div className="inline-block bg-blue-50 text-[#0088cc] px-5 py-1.5 rounded-full text-[10px] font-syncopate font-bold tracking-widest mb-4 uppercase">User_Registration</div>
+          <h2 className="text-2xl md:text-4xl font-syncopate font-bold text-zinc-900 tracking-tighter mb-2 leading-none">ร่วมออกแบบอนาคต</h2>
+          <p className="text-zinc-400 text-sm md:text-xl font-medium">เพื่อแลกรับรางวัล: <span className="text-[#0088cc] font-black italic">{prize.label}</span></p>
         </div>
 
-        {/* Scrollable Form Body - Mobile Optimized */}
-        <div className="p-6 md:p-12 overflow-y-auto flex-grow custom-scrollbar space-y-8 pb-32 md:pb-12">
-          <form className="space-y-8">
+        {/* Scrollable Content */}
+        <div className="p-8 md:p-14 overflow-y-auto flex-grow custom-scrollbar space-y-12 pb-40 md:pb-20">
+          <form className="space-y-12">
             
-            {/* Identity */}
-            <div className="space-y-5">
-              <div className="flex items-center gap-3">
-                <span className="w-7 h-7 rounded-full bg-zinc-900 text-[#00f3ff] flex items-center justify-center text-[10px] font-bold">01</span>
-                <h4 className="text-[10px] font-syncopate font-bold tracking-widest text-zinc-400 uppercase">ข้อมูลเบื้องต้น</h4>
+            {/* Identity Group */}
+            <div className="space-y-6">
+              <div className="flex items-center gap-4">
+                <span className="w-8 h-8 rounded-xl bg-zinc-900 text-[#00f3ff] flex items-center justify-center text-[11px] font-syncopate font-bold">01</span>
+                <h4 className="text-[11px] font-syncopate font-bold tracking-[0.3em] text-zinc-900 uppercase">Contact_Details</h4>
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-                <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold text-zinc-400 uppercase ml-1">ชื่อ - นามสกุล</label>
-                  <input type="text" value={fullName} onChange={(e) => setFullName(e.target.value)} placeholder="ระบุชื่อจริงและนามสกุล" className="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-4 md:px-6 md:py-5 focus:border-[#0088cc] outline-none transition-all font-semibold text-sm" />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest ml-1">Full Name *</label>
+                  <input type="text" value={fullName} onChange={(e) => setFullName(e.target.value)} placeholder="ชื่อจริง - นามสกุล" className="w-full bg-slate-50 border border-transparent rounded-2xl px-6 py-5 focus:bg-white focus:border-[#0088cc] outline-none transition-all font-semibold text-sm" />
                 </div>
-                <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold text-zinc-400 uppercase ml-1">Gmail / อีเมล</label>
-                  <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="example@gmail.com" className="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-4 md:px-6 md:py-5 focus:border-[#0088cc] outline-none transition-all font-semibold text-sm" />
+                <div className="space-y-2">
+                  <label className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest ml-1">Email Address *</label>
+                  <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="example@email.com" className="w-full bg-slate-50 border border-transparent rounded-2xl px-6 py-5 focus:bg-white focus:border-[#0088cc] outline-none transition-all font-semibold text-sm" />
                 </div>
-                <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold text-zinc-400 uppercase ml-1">เบอร์โทรศัพท์</label>
-                  <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="081-XXX-XXXX" className="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-4 md:px-6 md:py-5 focus:border-[#0088cc] outline-none transition-all font-mono font-bold text-sm" />
+                <div className="space-y-2">
+                  <label className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest ml-1">Phone Number *</label>
+                  <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="08X-XXX-XXXX" className="w-full bg-slate-50 border border-transparent rounded-2xl px-6 py-5 focus:bg-white focus:border-[#0088cc] outline-none transition-all font-mono font-bold text-sm tracking-widest" />
                 </div>
-                <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold text-zinc-400 uppercase ml-1">อาชีพปัจจุบัน</label>
-                  <input type="text" value={occupation} onChange={(e) => setOccupation(e.target.value)} placeholder="เช่น พนักงานบริษัท" className="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-4 md:px-6 md:py-5 focus:border-[#0088cc] outline-none transition-all font-semibold text-sm" />
+                <div className="space-y-2">
+                  <label className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest ml-1">Occupation</label>
+                  <input type="text" value={occupation} onChange={(e) => setOccupation(e.target.value)} placeholder="ระบุอาชีพ" className="w-full bg-slate-50 border border-transparent rounded-2xl px-6 py-5 focus:bg-white focus:border-[#0088cc] outline-none transition-all font-semibold text-sm" />
                 </div>
               </div>
             </div>
 
-            {/* Demographics */}
-            <div className="space-y-5">
-              <div className="flex items-center gap-3">
-                <span className="w-7 h-7 rounded-full bg-zinc-900 text-[#00f3ff] flex items-center justify-center text-[10px] font-bold">02</span>
-                <h4 className="text-[10px] font-syncopate font-bold tracking-widest text-zinc-400 uppercase">ข้อมูลเชิงลึก</h4>
+            {/* Insight Group */}
+            <div className="space-y-6">
+              <div className="flex items-center gap-4">
+                <span className="w-8 h-8 rounded-xl bg-zinc-900 text-[#00f3ff] flex items-center justify-center text-[11px] font-syncopate font-bold">02</span>
+                <h4 className="text-[11px] font-syncopate font-bold tracking-[0.3em] text-zinc-900 uppercase">Sizing_Research</h4>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
-                <div className="relative group">
-                  <label className="text-[10px] font-bold text-zinc-400 uppercase ml-1 mb-1.5 block">วันเดือนปีเกิด</label>
-                  <input type="date" value={dob} onChange={(e) => setDob(e.target.value)} className="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-4 md:px-6 md:py-5 focus:border-[#0088cc] outline-none transition-all font-semibold text-sm cursor-pointer" />
-                  {age !== null && <span className="absolute right-4 bottom-4 bg-zinc-900 text-[#00f3ff] text-[8px] px-2 py-1 rounded-md font-black">อายุ {age} ปี</span>}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="relative">
+                  <label className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest ml-1 mb-2 block">Date of Birth</label>
+                  <input type="date" value={dob} onChange={(e) => setDob(e.target.value)} className="w-full bg-slate-50 border border-transparent rounded-2xl px-6 py-5 focus:bg-white focus:border-[#0088cc] outline-none transition-all font-semibold text-sm cursor-pointer appearance-none" />
+                  {age !== null && <span className="absolute right-4 bottom-5 bg-zinc-900 text-[#00f3ff] text-[9px] px-3 py-1 rounded-full font-black">AGE: {age}</span>}
                 </div>
                 <div>
-                  <label className="text-[10px] font-bold text-zinc-400 uppercase ml-1 mb-1.5 block">เพศ</label>
-                  <select value={gender} onChange={(e) => setGender(e.target.value)} className="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-4 md:px-6 md:py-5 outline-none font-semibold text-sm cursor-pointer appearance-none">
-                    <option value="">เลือกเพศ</option>
-                    <option value="ชาย">ชาย</option>
-                    <option value="หญิง">หญิง</option>
+                  <label className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest ml-1 mb-2 block">Gender</label>
+                  <select value={gender} onChange={(e) => setGender(e.target.value)} className="w-full bg-slate-50 border border-transparent rounded-2xl px-6 py-5 focus:bg-white focus:border-[#0088cc] outline-none font-semibold text-sm cursor-pointer appearance-none">
+                    <option value="">ระบุเพศ</option>
+                    <option value="ชาย">ชาย (Male)</option>
+                    <option value="หญิง">หญิง (Female)</option>
                     <option value="LGBTQ+">LGBTQ+</option>
                   </select>
                 </div>
                 <div>
-                  <label className="text-[10px] font-bold text-zinc-400 uppercase ml-1 mb-1.5 block">ศาสนา</label>
-                  <select value={religion} onChange={(e) => setReligion(e.target.value)} className="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-4 md:px-6 md:py-5 outline-none font-semibold text-sm cursor-pointer appearance-none">
-                    <option value="">เลือกศาสนา</option>
+                  <label className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest ml-1 mb-2 block">Religion</label>
+                  <select value={religion} onChange={(e) => setReligion(e.target.value)} className="w-full bg-slate-50 border border-transparent rounded-2xl px-6 py-5 focus:bg-white focus:border-[#0088cc] outline-none font-semibold text-sm cursor-pointer appearance-none">
+                    <option value="">ระบุศาสนา</option>
                     <option value="พุทธ">พุทธ</option>
                     <option value="คริสต์">คริสต์</option>
                     <option value="อิสลาม">อิสลาม</option>
@@ -129,24 +137,23 @@ const DataModal: React.FC<DataModalProps> = ({ prize, onSubmit }) => {
                 </div>
               </div>
 
-              {/* Body Sizing - Touch Friendly Buttons */}
-              <div className="grid grid-cols-1 gap-6 pt-4">
-                <div className="space-y-3">
-                  <label className="text-[10px] font-bold text-zinc-400 uppercase ml-1">ไซส์เสื้อที่ใส่ประจำ</label>
-                  <div className="grid grid-cols-4 md:grid-cols-7 gap-2">
+              <div className="grid grid-cols-1 gap-8 pt-6">
+                <div className="space-y-4">
+                  <label className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest ml-1">Daily Size (Your common size)</label>
+                  <div className="grid grid-cols-4 md:grid-cols-7 gap-3">
                     {SIZES.map(s => (
-                      <button key={s} type="button" onClick={() => setSize(s)} className={`py-4 rounded-xl text-xs font-black transition-all border ${size === s ? 'bg-zinc-900 border-zinc-900 text-[#00f3ff] shadow-lg' : 'bg-slate-50 border-transparent text-zinc-400'}`}>
+                      <button key={s} type="button" onClick={() => setSize(s)} className={`py-5 rounded-2xl text-xs font-black transition-all border-2 ${size === s ? 'bg-zinc-900 border-zinc-900 text-[#00f3ff] shadow-xl scale-105' : 'bg-slate-50 border-transparent text-zinc-400 hover:border-zinc-200'}`}>
                         {s}
                       </button>
                     ))}
                   </div>
                 </div>
 
-                <div className="space-y-3">
-                  <label className="text-[10px] font-bold text-zinc-400 uppercase ml-1">ทรงเสื้อที่ชอบ</label>
-                  <div className="flex gap-2">
+                <div className="space-y-4">
+                  <label className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest ml-1">Preferred Fit</label>
+                  <div className="flex flex-wrap gap-3">
                     {STYLES.map(s => (
-                      <button key={s} type="button" onClick={() => setStyle(s as any)} className={`flex-1 py-4 px-2 rounded-xl text-[10px] font-bold transition-all border ${style === s ? 'bg-[#0088cc] border-[#0088cc] text-white shadow-lg' : 'bg-slate-50 border-transparent text-zinc-400'}`}>
+                      <button key={s} type="button" onClick={() => setStyle(s as any)} className={`flex-1 min-w-[120px] py-5 px-6 rounded-2xl text-[11px] font-syncopate font-bold transition-all border-2 ${style === s ? 'bg-[#0088cc] border-[#0088cc] text-white shadow-xl scale-105' : 'bg-slate-50 border-transparent text-zinc-400 hover:border-zinc-200'}`}>
                         {s.toUpperCase()}
                       </button>
                     ))}
@@ -155,31 +162,30 @@ const DataModal: React.FC<DataModalProps> = ({ prize, onSubmit }) => {
               </div>
             </div>
 
-            {/* Address */}
-            <div className="space-y-5">
-              <div className="flex items-center gap-3">
-                <span className="w-7 h-7 rounded-full bg-zinc-900 text-[#00f3ff] flex items-center justify-center text-[10px] font-bold">03</span>
-                <h4 className="text-[10px] font-syncopate font-bold tracking-widest text-zinc-400 uppercase">ที่อยู่สำหรับการจัดส่ง</h4>
+            {/* Logistics Group */}
+            <div className="space-y-6">
+              <div className="flex items-center gap-4">
+                <span className="w-8 h-8 rounded-xl bg-zinc-900 text-[#00f3ff] flex items-center justify-center text-[11px] font-syncopate font-bold">03</span>
+                <h4 className="text-[11px] font-syncopate font-bold tracking-[0.3em] text-zinc-900 uppercase">Delivery_Info</h4>
               </div>
-              <textarea rows={3} value={address} onChange={(e) => setAddress(e.target.value)} placeholder="เลขที่บ้าน, ซอย, ถนน, แขวง, เขต, จังหวัด..." className="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-4 md:px-6 md:py-5 focus:border-[#0088cc] outline-none transition-all font-semibold text-sm resize-none" />
+              <textarea rows={4} value={address} onChange={(e) => setAddress(e.target.value)} placeholder="บ้านเลขที่, ถนน, แขวง, เขต, รหัสไปรษณีย์..." className="w-full bg-slate-50 border border-transparent rounded-2xl px-6 py-5 focus:bg-white focus:border-[#0088cc] outline-none transition-all font-semibold text-sm resize-none" />
             </div>
 
-            {/* Consent */}
-            <div className="pt-6 border-t border-zinc-50">
-              <label className="flex items-start gap-3 p-4 bg-blue-50/30 rounded-2xl cursor-pointer">
-                <input type="checkbox" className="mt-0.5 w-5 h-5 rounded-md accent-[#0088cc]" checked={consentTerms} onChange={(e) => setConsentTerms(e.target.checked)} />
-                <span className="text-[10px] leading-relaxed text-zinc-500 font-medium">
-                  ยินยอมให้ Yuedpao Labs เก็บข้อมูลส่วนบุคคลตามนโยบาย PDPA เพื่อการพัฒนาสินค้าและการจัดส่งรางวัล
+            <div className="pt-8 border-t border-zinc-50">
+              <label className="flex items-start gap-5 p-6 bg-blue-50/20 rounded-[2rem] cursor-pointer group hover:bg-blue-50/40 transition-colors">
+                <input type="checkbox" className="mt-1 w-6 h-6 rounded-lg accent-[#0088cc] cursor-pointer" checked={consentTerms} onChange={(e) => setConsentTerms(e.target.checked)} />
+                <span className="text-xs md:text-sm leading-relaxed text-zinc-500 font-medium group-hover:text-zinc-700 transition-colors">
+                  ฉันยินยอมให้ <span className="text-zinc-900 font-bold uppercase tracking-widest">Yuedpao Labs</span> จัดเก็บและประมวลผลข้อมูลส่วนบุคคลเพื่อการวิจัยสรีระและการส่งมอบของรางวัลตามกฎหมาย PDPA
                 </span>
               </label>
             </div>
           </form>
         </div>
 
-        {/* Action Button - Floating on Mobile */}
-        <div className="absolute bottom-0 left-0 w-full p-6 md:p-10 border-t border-zinc-50 bg-white md:relative flex-shrink-0">
-          <button onClick={handleSubmit} className="w-full btn-chrome text-white font-syncopate font-bold py-5 md:py-7 rounded-xl md:rounded-[2rem] uppercase tracking-[0.3em] text-[11px] md:text-sm shadow-xl active:scale-95 transition-all">
-            ยืนยันข้อมูลและส่ง
+        {/* Footer Action */}
+        <div className="absolute bottom-0 left-0 w-full p-8 md:p-14 border-t border-zinc-50 bg-white/90 backdrop-blur-md md:relative flex-shrink-0 z-20">
+          <button onClick={handleSubmit} className="w-full btn-chrome text-white font-syncopate font-bold py-7 md:py-9 rounded-2xl md:rounded-full uppercase tracking-[0.4em] text-xs md:text-sm shadow-2xl active:scale-95 transition-all">
+            SUBMIT_RESEARCH_DATA
           </button>
         </div>
       </div>
